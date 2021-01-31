@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://java.sun.com/xml/ns/javaee">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Loop</title>
+    <style>
+        table th, table td {
+            padding: 5px;
+        }
+
+        .row {
+            font-style: italic;
+        }
+
+        .even-row {
+            color: black;
+        }
+
+        .odd-row {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Таблица всех пользователей</h1>
+
+<table border="1">
+    <tr>
+        <th>USER_ID</th>
+        <th>ИМЯ</th>
+        <th>ФАМИЛИЯ</th>
+        <th>ПОЧТА</th>
+        <th>ПРАВО ДОСТУПА</th>
+        <th>ОТДЕЛ</th>
+        <th>УДАЛИТЬ</th>
+        <th>ОБНОВИТЬ</th>
+    </tr>
+
+    <tr th:each="user, state : ${allUsers}"
+        class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
+
+        <td th:utext="${user.id}">No</td>
+        <td th:utext="${user.name}">name</td>
+        <td th:utext="${user.last_name}">last_name</td>
+        <td th:utext="${user.email}">email</td>
+        <td>
+            <p th:each="userRole: ${user.roles}">
+                <span th:text="${userRole.getRole()}">role</span>
+            </p>
+        </td>
+        <td th:utext="${user.department}">department</td>
+
+        <td>
+            <form method="post" th:action="@{admin/{id}(id=${user.getId()})}">
+                <input type="submit" value="удалить"/>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/editUser/{id}(id=${user.getId()})}">
+                <input type="submit" value="изменить"/>
+            </form>
+        </td>
+    </tr>
+
+</table>
+<br>
+<input type="button" value="Add"
+       onclick="window.location.href ='/admin/addNewUser'"
+
+/>
+<br>
+<input type="button" value="Logout"
+       onclick="window.location.href ='/logout'"
+
+/>
+</body>
+</html>
