@@ -57,12 +57,8 @@ public class AdminController {
     }
 
     @PostMapping(value = "/userEdit")
-    public String Update(@ModelAttribute("user") User user, @RequestParam("role") String[] role,
-                         @RequestParam("password") String password
-    )
-    // я чет походу не догоняю с этим паролем?
-            // ниче не вводишь а он меняет его на новый
-            // сделал проверку на ноль и если что установить имеющийся - результат такой же
+    public String update(@ModelAttribute("user") User user, @RequestParam("role") String[] role,
+                         @RequestParam("password") String password)
     {
         if (password.equals(user.getPassword())) {
             user.setPassword(user.getPassword());
@@ -80,11 +76,6 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-/*    @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String loginPage() {
-        return "login";
-    }*/
-
     private Set<Role> getAddRole(String[] role) {
         Set<Role> roleSet = new HashSet<>();
         for (String s : role) {
@@ -92,5 +83,4 @@ public class AdminController {
         }
         return roleSet;
     }
-
 }

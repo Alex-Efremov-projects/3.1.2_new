@@ -13,8 +13,6 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/")
 public class UserController {
-
-
     private final UserService userService;
 
     @Autowired

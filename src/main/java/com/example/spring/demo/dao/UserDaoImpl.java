@@ -11,17 +11,13 @@ import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
-
-
     @PersistenceContext
     private EntityManager entityManager;
-
 
     @Override
     public List<User> getAllUsers() {
         return entityManager.createQuery("from User", User.class).getResultList();
     }
-
 
     @Override
     public void saveUser(User user) {
@@ -35,8 +31,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void editUser(User user) {
-
-      // user.setPassword(getUser(user.getId()).getPassword());
         entityManager.merge(user);
     }
 
@@ -52,21 +46,4 @@ public class UserDaoImpl implements UserDao {
                 .setParameter(1, email)
                 .getSingleResult();
     }
-
-//перенес логику в RoleDao
-/*
-    @Override
-    public Role getRoleByName(String name) {
-        return entityManager.createQuery("select role from Role role where role.role=:name", Role.class)
-                .setParameter("name", name)
-                .getSingleResult();
-    }
-
-    @Override
-    public List<Role> getListRole() {
-        return entityManager.createQuery("from Role").getResultList();
-    }
-
-*/
-
 }

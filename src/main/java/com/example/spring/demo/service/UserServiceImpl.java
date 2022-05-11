@@ -21,6 +21,7 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserDao userDao;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public UserServiceImpl(UserDao userDao) {
@@ -36,8 +37,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.saveUser(user);
     }
 
@@ -56,8 +56,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void editUser(User user) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if (user.getPassword().equals("")) {
+            user.setPassword(userDao.getUser(user.getId()).getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userDao.editUser(user);
     }
 
@@ -66,19 +69,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User showUserByUsername(String email) {
         return userDao.showUserByUsername(email);
     }
-
-//перенес логику в RoleDao
-/*    @Override
-    @Transactional
-    public Role getRoleByName(String name) {
-        return userDao.getRoleByName(name);
-    }*/
-
-/*    @Override
-    @Transactional
-    public List<Role> getListRole() {
-        return userDao.getListRole();
-    }*/
 
     @Override
     @Transactional(readOnly = true)

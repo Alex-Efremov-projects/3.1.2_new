@@ -18,14 +18,5 @@ public interface UserDao {
     void deleteUser(int id);
 
     User showUserByUsername(String email);
-
-
-
-//перенес логику в RoleDao
-
-/*    Role getRoleByName(String name);
-
-    List<Role> getListRole();*/
-
 }
 
