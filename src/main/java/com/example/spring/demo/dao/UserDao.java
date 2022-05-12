@@ -11,11 +11,11 @@ public interface UserDao {
 
     void saveUser(User user);
 
-    User getUser(int id);
+    User getUser(long id);
 
     void editUser(User user);
 
-    void deleteUser(int id);
+    void deleteUser(long id);
 
     User showUserByUsername(String email);
 }

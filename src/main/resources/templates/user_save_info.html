@@ -8,7 +8,7 @@
 <div align="center">
     <h3>Сохранение пользователя:</h3>
     <br><br>
-    <form th:method="post" th:action="@{/admin/saveUser}"  th:object="${user}">
+    <form th:method="post" th:action="@{/admin/save}"  th:object="${user}">
         <table align="center">
             <input type="hidden" th:field="*{id}"/>
             <tr>

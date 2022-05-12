@@ -53,12 +53,12 @@
         <td th:utext="${user.department}">department</td>
 
         <td>
-            <form method="post" th:action="@{admin/{id}(id=${user.getId()})}">
+            <form method="post" th:action="@{admin/delete/{id}(id=${user.getId()})}">
                 <input type="submit" value="удалить"/>
             </form>
         </td>
         <td>
-            <form th:action="@{/admin/editUser/{id}(id=${user.getId()})}">
+            <form th:action="@{/admin/edit/{id}(id=${user.getId()})}">
                 <input type="submit" value="изменить"/>
             </form>
         </td>
@@ -67,7 +67,7 @@
 </table>
 <br>
 <input type="button" value="Add"
-       onclick="window.location.href ='/admin/addNewUser'"
+       onclick="window.location.href ='/admin/add'"
 
 />
 <br>

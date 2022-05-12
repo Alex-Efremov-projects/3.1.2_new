@@ -8,7 +8,7 @@
 <div align="center">
     <h3>Редактирование пользователя:</h3>
     <br><br>
-    <form th:method="post" th:action="@{/admin/userEdit}" th:object="${user}">
+    <form th:method="post" th:action="@{/admin/update}" th:object="${user}">
         <table align="center">
             <input type="hidden" th:field="*{id}"/>
             <tr>
