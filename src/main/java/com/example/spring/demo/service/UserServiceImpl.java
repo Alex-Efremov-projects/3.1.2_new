@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(roleDao.getRoleByName("ROLE_USER")));
+        user.setRoleSet(Collections.singleton(roleDao.getRoleByName("ROLE_USER")));
         userDao.saveUser(user);
     }
 
@@ -56,12 +56,12 @@ public class UserServiceImpl implements UserService{
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        user.setRoles(userDB.getRoles());
+        user.setRoleSet(userDB.getRoleSet());
         userDao.editUser(user);
     }
 
     @Override
-    public User showUserByUsername(String email) {
+    public User showUserByEmail(String email) {
         return userDao.showUserByUsername(email);
     }
 
