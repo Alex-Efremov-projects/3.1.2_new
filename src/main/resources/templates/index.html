@@ -34,6 +34,7 @@
         <th>ПОЧТА</th>
         <th>ПРАВО ДОСТУПА</th>
         <th>ОТДЕЛ</th>
+        <th>ВОЗРАСТ</th>
         <th>УДАЛИТЬ</th>
         <th>ОБНОВИТЬ</th>
     </tr>
@@ -51,7 +52,7 @@
             </p>
         </td>
         <td th:utext="${user.department}">department</td>
-
+        <td th:utext="${user.age}">age</td>
         <td>
             <form method="post" th:action="@{admin/delete/{id}(id=${user.getId()})}">
                 <input type="submit" value="удалить"/>

@@ -22,6 +22,8 @@ public class User implements UserDetails {
     private String department;
     @Column(name = "password")
     private String password;
+    @Column(name = "age")
+    private int age;
 
     @Column(name = "email")
     private String email;
@@ -30,7 +32,7 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_roles",
             joinColumns =
             @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -39,23 +41,8 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     public User() {
-
+        // TODO document why this constructor is empty
     }
-
-    public User(String name, String lastName, String department, String password, Set<Role> roles, String email) {
-        this.name = name;
-        this.lastName = lastName;
-        this.department = department;
-        this.password = password;
-        this.roles = roles;
-        this.email = email;
-    }
-
-    public User(String password, String email) {
-        this.password = password;
-        this.email = email;
-    }
-
 
     @Override
     public String toString() {
@@ -161,5 +148,13 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }

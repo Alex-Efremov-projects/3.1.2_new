@@ -25,8 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired // сетаем юзердетейлс и хандлер
-    public SecurityConfig(@Qualifier("userServiceImpl") UserDetailsService userDetailsService,
-                          LoginSuccessHandler loginSuccessHandler) {
+    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, LoginSuccessHandler loginSuccessHandler) {
         this.userDetailsService = userDetailsService;
         this.loginSuccessHandler = loginSuccessHandler;
     }
@@ -42,9 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/", "/login").not().fullyAuthenticated()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/user/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-                .anyRequest().not().access("hasRole('ROLE_USER')")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                .anyRequest().not().hasRole("USER")
                 .and()
                 .formLogin()
                 .successHandler(loginSuccessHandler);

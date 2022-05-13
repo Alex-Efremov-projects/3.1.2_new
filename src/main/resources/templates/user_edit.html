@@ -28,21 +28,14 @@
                 <td><input th:field="*{email}" type="text"/></td>
             </tr>
             <tr>
+                <td>Возраст:</td>
+                <td><input th:field="*{age}" type="text"/></td>
+            </tr>
+            <tr>
                 <td>Пароль:</td>
                 <td><input th:field="*{password}" type="password"/></td>
             </tr>
-            <tr>
-                <label><strong>Права:</strong></label>
-                <br>
-                <select multiple size="2" name="role" th:required="true" class="form-control">
-                    <option
-                            th:each="role : ${listRole}"
-                            th:value="${role.getRole()}"
-                            th:text="${role.getRole()}"
-                            th:selected="${#lists.contains(user.roles, role)}">
-                    </option>
-                </select>
-            </tr>
+
         </table>
         <br><br>
         <input type="submit" value="Сохранить изменения">

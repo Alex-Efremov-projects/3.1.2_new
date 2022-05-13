@@ -1,35 +1,29 @@
 package com.example.spring.demo.service;
 
+import com.example.spring.demo.dao.RoleDao;
 import com.example.spring.demo.dao.UserDao;
-import com.example.spring.demo.model.Role;
 import com.example.spring.demo.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService{
     private final UserDao userDao;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final RoleDao roleDao;
 
-    @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    private final BCryptPasswordEncoder passwordEncoder ;
+
+    public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.roleDao = roleDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    @Transactional
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
@@ -38,11 +32,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Collections.singleton(roleDao.getRoleByName("USER")));
         userDao.saveUser(user);
     }
 
     @Override
-    @Transactional
     public User getUser(long id) {
         return userDao.getUser(id);
     }
@@ -56,28 +50,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void editUser(User user) {
+        User userDB = userDao.getUser(user.getId());
         if (user.getPassword().equals("")) {
-            user.setPassword(userDao.getUser(user.getId()).getPassword());
+            user.setPassword(userDB.getPassword());
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
+        user.setRoles(userDB.getRoles());
         userDao.editUser(user);
     }
 
     @Override
-    @Transactional
     public User showUserByUsername(String email) {
         return userDao.showUserByUsername(email);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userDao.showUserByUsername(s);
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
-        }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
-    }
 }
