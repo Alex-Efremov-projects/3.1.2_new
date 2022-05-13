@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(roleDao.getRoleByName("USER")));
+        user.setRoles(Collections.singleton(roleDao.getRoleByName("ROLE_USER")));
         userDao.saveUser(user);
     }
 

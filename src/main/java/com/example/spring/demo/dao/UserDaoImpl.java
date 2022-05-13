@@ -1,6 +1,5 @@
 package com.example.spring.demo.dao;
 
-
 import com.example.spring.demo.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -42,8 +41,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User showUserByUsername(String email) {
         return entityManager
-                .createQuery("select u from User u where u.email =?1", User.class)
-                .setParameter(1, email)
+                .createQuery("select u from User u join fetch u.roles r where u.email =:email ", User.class)
+                .setParameter("email", email)
                 .getSingleResult();
     }
 }
