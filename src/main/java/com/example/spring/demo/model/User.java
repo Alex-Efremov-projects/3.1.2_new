@@ -32,7 +32,7 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_roles",
             joinColumns =
             @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -89,6 +89,19 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     public long getId() {
         return id;
     }
@@ -125,6 +138,14 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -135,26 +156,5 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 }
