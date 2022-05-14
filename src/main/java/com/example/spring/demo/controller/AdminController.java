@@ -1,6 +1,5 @@
 package com.example.spring.demo.controller;
 
-import com.example.spring.demo.model.Role;
 import com.example.spring.demo.model.User;
 import com.example.spring.demo.service.RoleService;
 import com.example.spring.demo.service.UserService;
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -38,17 +35,15 @@ public class AdminController {
     }
 
     @PostMapping(value = "/save")
-    public String saveUser(@ModelAttribute("user") User user, @RequestParam("role") String[] role) {
-        user.setRoleSet(getAddRole(role));
-        userService.saveUser(user);
+    public String saveUser(@ModelAttribute("user") User user, @RequestParam("role") Long[] roles) {
+        userService.saveUser(user, roles);
         return "redirect:/admin";
     }
 
-    @PostMapping (value = "/update")
-    public String update(@ModelAttribute("user") User user, @RequestParam("role") String[] role
+    @PostMapping(value = "/update")
+    public String update(@ModelAttribute("user") User user, @RequestParam("role") Long[] roles
     ) {
-        user.setRoleSet(getAddRole(role));
-        userService.editUser(user);
+        userService.editUser(user, roles);
         return "redirect:/admin";
     }
 
@@ -56,13 +51,5 @@ public class AdminController {
     public String delete(@PathVariable("id") int id) {
         userService.deleteUser(id);
         return "redirect:/admin";
-    }
-
-    private Set<Role> getAddRole(String[] role) {
-        Set<Role> roleSet = new HashSet<>();
-        for (String s : role) {
-            roleSet.add(roleService.getRoleByName(s));
-        }
-        return roleSet;
     }
 }

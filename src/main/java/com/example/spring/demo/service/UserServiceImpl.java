@@ -7,15 +7,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final RoleDao roleDao;
 
-    private final BCryptPasswordEncoder passwordEncoder ;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder passwordEncoder) {
         this.userDao = userDao;
@@ -30,9 +29,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void saveUser(User user) {
+    public void saveUser(User user, Long[] roleIds) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoleSet(Collections.singleton(roleDao.getRoleByName("ROLE_USER")));
+        user.setRoleSet(roleDao.getSetRoleById(roleIds));
         userDao.saveUser(user);
     }
 
@@ -49,14 +48,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void editUser(User user) {
+    public void editUser(User user, Long[] roleIds) {
         User userDB = userDao.getUser(user.getId());
-        if (user.getPassword().equals("")) {
-            user.setPassword(userDB.getPassword());
-        } else {
+        if (!userDB.getPassword().equals(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        user.setRoleSet(userDB.getRoleSet());
+        user.setRoleSet(roleDao.getSetRoleById(roleIds));
         userDao.editUser(user);
     }
 

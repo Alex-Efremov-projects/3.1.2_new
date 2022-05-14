@@ -5,6 +5,7 @@ import com.example.spring.demo.model.Role;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -17,6 +18,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role getRoleByName(String name) {
         return roleDao.getRoleByName(name);
+    }
+
+    @Override
+    public Set<Role> getSetRoleById(Long[] ids) {
+        return roleDao.getSetRoleById(ids);
     }
 
     @Override
