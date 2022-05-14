@@ -64,5 +64,4 @@ public class UserServiceImpl implements UserService{
     public User showUserByEmail(String email) {
         return userDao.showUserByUsername(email);
     }
-
 }

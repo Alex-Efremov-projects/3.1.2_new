@@ -113,7 +113,7 @@
                                                             пользователя:</h5>
                                                     </div>
                                                     <div class="modal-body text-center">
-                                                        <form th:method="post" th:action="@{/admin/userEdit}"
+                                                        <form th:method="post" th:action="@{/admin/update}"
                                                               th:object="${user}">
                                                             <strong> ID </strong>
                                                             <br>
@@ -265,7 +265,7 @@
                                                                     data-dismiss="modal">Закрыть
                                                             </button>
                                                             <form th:method="POST"
-                                                                  th:action="@{/admin/{id} (id=${user.id})}"
+                                                                  th:action="@{/admin/delete/{id} (id=${user.id})}"
                                                                   th:object="${user}">
                                                                 <input type="submit" value="Удалить"
                                                                        class="btn btn-danger">
@@ -289,7 +289,7 @@
                             </nav>
                             <div class="text-dark bg-white">
 
-                                <form th:action="@{/admin/saveUser}" th:object="${user}" method="post"
+                                <form th:action="@{/admin/save}" th:object="${user}" method="post"
                                       class="text-center">
 
                                     <p>

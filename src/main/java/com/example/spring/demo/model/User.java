@@ -1,14 +1,17 @@
 package com.example.spring.demo.model;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "table_user", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
-public class User implements  UserDetails{
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,6 +24,8 @@ public class User implements  UserDetails{
     @Column
     private String password;
     @Column
+    private String age;
+    @Column
     private String email;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
@@ -28,6 +33,7 @@ public class User implements  UserDetails{
             inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
     private Set<Role> roleSet;
 
+    private static final long serialVersionUID = -4333316296251054416L;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -114,5 +120,44 @@ public class User implements  UserDetails{
 
     public void setRoleSet(Set<Role> roleSet) {
         this.roleSet = roleSet;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(name, user.name) &&
+                Objects.equals(lastname, user.lastname)
+                && Objects.equals(department, user.department)
+                && Objects.equals(password, user.password)
+                && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastname, department, email);
+    }
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", department='" + department + '\'' +
+                ", password='" + password + '\'' +
+                ", age='" + age + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
