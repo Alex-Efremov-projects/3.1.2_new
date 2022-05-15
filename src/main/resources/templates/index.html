@@ -28,6 +28,7 @@
     <form class="form-inline" th:action="@{/logout}" method="post">
         <input class="btn btn-outline-secondary" type="submit" value="Выход">
     </form>
+
 </nav>
 
 <!-- User selection left panel -->
@@ -38,6 +39,9 @@
                aria-controls="v-pills-admin" aria-selected="true">Администратор</a>
             <a class="nav-link" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-User" role="tab"
                aria-controls="v-pills-user" aria-selected="false">Пользователь</a>
+            <form class="form-inline" th:action="@{/hot}" method="get">
+                <input class="btn btn-outline-secondary" type="submit" value="18+">
+            </form>
         </div>
     </div>
 

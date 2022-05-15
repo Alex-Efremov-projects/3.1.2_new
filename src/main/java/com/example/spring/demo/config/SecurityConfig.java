@@ -39,24 +39,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override // конфиг для перехода по ролям
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(customFilter(), BasicAuthenticationFilter.class).csrf()
+        http.addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class).csrf()
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/", "/login").not().fullyAuthenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/hot").authenticated()
                 .anyRequest().not().hasRole("USER")
                 .and()
-                .formLogin().loginPage("/login")
+                .formLogin()
                 .successHandler(loginSuccessHandler);
         http.logout()
                 .permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login");
-    }
-
-    @Bean
-    public CustomFilter customFilter() {
-        return new CustomFilter();
     }
 }

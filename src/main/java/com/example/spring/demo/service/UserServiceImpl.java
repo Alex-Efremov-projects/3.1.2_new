@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(long id) {
+    public User getUserById(long id) {
         return userDao.getUser(id);
     }
 
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User showUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return userDao.showUserByUsername(email);
     }
 }

@@ -24,7 +24,7 @@ public class User implements UserDetails, Serializable {
     @Column
     private String password;
     @Column
-    private String age;
+    private int age;
     @Column
     private String email;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -122,11 +122,11 @@ public class User implements UserDetails, Serializable {
         this.roleSet = roleSet;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 

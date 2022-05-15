@@ -1,4 +1,5 @@
 package com.example.spring.demo.model;
+
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -16,7 +17,6 @@ public class Role implements GrantedAuthority {
 
     private @ManyToMany(mappedBy = "roleSet")
     Set<User> userSet;
-
 
     @Override
     public String getAuthority() {
@@ -63,10 +63,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", userSet=" + userSet +
-                '}';
+        return "Role : " + name;
     }
 }
