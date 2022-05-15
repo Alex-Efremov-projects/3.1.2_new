@@ -162,8 +162,12 @@
                                                                 <br>
                                                                 <select multiple size="2" name="role" th:required="true"
                                                                         class="form-control">
-                                                                    <option value="1">ADMIN</option>
-                                                                    <option value="2">USER</option>
+                                                                    <option
+                                                                            th:each="role : ${listRole}"
+                                                                            th:value="${role.getId()}"
+                                                                            th:text="${role.getName()}"
+                                                                            th:selected="${#lists.contains(user.roleSet, role)}">
+                                                                    </option>
                                                                 </select>
                                                             </p>
                                                             <div class="modal-footer">
@@ -330,10 +334,13 @@
                                                 <br>
                                                 <select multiple size="2" name="role" th:required="true"
                                                         class="form-control">
-                                                    <option value="1">ADMIN</option>
-                                                    <option value="2">USER</option>
+                                                    <option
+                                                            th:each="role : ${listRole}"
+                                                            th:value="${role.getId()}"
+                                                            th:text="${role.getName()}"
+                                                            th:selected="${#lists.contains(user.roleSet, role)}">
+                                                    </option>
                                                 </select>
-                                            </p>
                                         </div>
                                     </div>
                                     <br>
