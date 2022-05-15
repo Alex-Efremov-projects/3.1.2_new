@@ -54,9 +54,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login");
     }
-
-    @Bean
-    public CustomFilter customFilter() {
-        return new CustomFilter();
-    }
 }
