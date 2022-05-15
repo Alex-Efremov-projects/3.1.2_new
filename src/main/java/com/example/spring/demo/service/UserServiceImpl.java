@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User showUserByUsername(String email) {
-        return userDao.showUserByUsername(email);
+    public User getUserByUsername(String email) {
+        return userDao.getUserByUsername(email);
     }
 
 }

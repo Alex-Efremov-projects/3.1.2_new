@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/user")
     public String user(Model model, Principal principal) {
-        model.addAttribute("oneUser", userService.showUserByUsername(principal.getName()));
+        model.addAttribute("oneUser", userService.getUserByUsername(principal.getName()));
         return "userLogin";
     }
 }

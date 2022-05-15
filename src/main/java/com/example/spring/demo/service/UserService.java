@@ -15,6 +15,6 @@ public interface UserService {
 
     void editUser(User user);
 
-    User showUserByUsername(String email);
+    User getUserByUsername(String email);
 }
 
