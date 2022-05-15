@@ -2,6 +2,7 @@ package com.example.spring.demo.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -46,12 +47,26 @@ public class Role implements GrantedAuthority {
     public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role role = (Role) o;
+        return id.equals(role.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     @Override
     public String toString() {
-        if (name.equals("ROLE_USER")) {
-            return "USER - только просмотр информации";
-        } else if (name.equals("ROLE_ADMIN")) {
-            return "ADMIN - Вам доступны любые действия в системе";
-        } else return "ADMIN + USER";
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", userSet=" + userSet +
+                '}';
     }
 }
