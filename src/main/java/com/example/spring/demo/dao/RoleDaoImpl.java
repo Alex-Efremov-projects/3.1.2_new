@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Repository
 public class RoleDaoImpl implements RoleDao {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public Role getRoleByName(String name) {
@@ -28,9 +28,9 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public Set<Role> getSetRoleById(Long[] ids) {
+    public Set<Role> getSetRoleById(Long[] rolesIds) {
         return entityManager.createQuery("select role from Role role where role.id in (:ids)", Role.class)
-                .setParameter("ids", Arrays.asList(ids))
+                .setParameter("ids", Arrays.asList(rolesIds))
                 .getResultStream()
                 .collect(Collectors.toSet());
     }

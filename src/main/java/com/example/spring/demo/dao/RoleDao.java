@@ -10,5 +10,5 @@ public interface RoleDao {
 
     List<Role> getListRole();
 
-    Set<Role> getSetRoleById(Long[] ids);
+    Set<Role> getSetRoleById(Long[] rolesIds);
 }
