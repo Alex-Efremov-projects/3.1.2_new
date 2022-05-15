@@ -35,15 +35,15 @@ public class AdminController {
     }
 
     @PostMapping(value = "/save")
-    public String saveUser(@ModelAttribute("user") User user, @RequestParam("role") Long[] roles) {
-        userService.saveUser(user, roles);
+    public String saveUser(@ModelAttribute("user") User user, @RequestParam("role") Long[] rolesIds) {
+        userService.saveUser(user, rolesIds);
         return "redirect:/admin";
     }
 
     @PostMapping(value = "/update")
-    public String update(@ModelAttribute("user") User user, @RequestParam("role") Long[] roles
+    public String update(@ModelAttribute("user") User user, @RequestParam("role") Long[] rolesIds
     ) {
-        userService.editUser(user, roles);
+        userService.editUser(user, rolesIds);
         return "redirect:/admin";
     }
 
