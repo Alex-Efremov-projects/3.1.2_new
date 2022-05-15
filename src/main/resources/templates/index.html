@@ -71,9 +71,9 @@
        onclick="window.location.href ='/admin/add'"
 />
 <br>
-<input type="button" value="18+"
-       onclick="window.location.href ='/admin/18+'"
-/>
+<form method="get" th:action="@{/hot}">
+    <input type="submit" value="18+"/>
+</form>
 <br>
 <input type="button" value="Logout"
        onclick="window.location.href ='/logout'"
