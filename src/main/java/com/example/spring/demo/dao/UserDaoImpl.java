@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User showUserByUsername(String email) {
+    public User getUserWithRolesByEmail(String email) {
         return entityManager
                 .createQuery("select u from User u join fetch u.roleSet r where u.email =:email ", User.class)
                 .setParameter("email", email)

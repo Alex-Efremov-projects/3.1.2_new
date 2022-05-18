@@ -1,5 +1,6 @@
 package com.example.spring.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Role implements GrantedAuthority {
     private String name;
 
     private @ManyToMany(mappedBy = "roleSet")
+    @JsonIgnore
     Set<User> userSet;
 
     @Override
@@ -40,6 +42,7 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
+    @JsonIgnore
     public Set<User> getUserSet() {
         return userSet;
     }

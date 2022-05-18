@@ -1,16 +1,20 @@
 package com.example.spring.demo.controller;
 
+import com.example.spring.demo.model.User;
 import com.example.spring.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
-@Controller
-@RequestMapping("/")
+
+@RestController
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
 
@@ -19,18 +23,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public String getLoginPage() {
-        return "login";
-    }
-    @GetMapping("/login")
-    public String getHomePage() {
-        return "login";
-    }
-
-    @GetMapping("/user")
-    public String user(Model model, Principal principal) {
-        model.addAttribute("oneUser", userService.getUserByEmail(principal.getName()));
-        return "user";
+    @GetMapping("/get")
+    public ResponseEntity<User> user() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+        return ResponseEntity.ok().body(currentUser);
     }
 }

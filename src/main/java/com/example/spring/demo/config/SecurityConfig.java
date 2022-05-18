@@ -43,12 +43,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/", "/login").not().fullyAuthenticated()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/js/**").permitAll()
+                .antMatchers("/api/admin/**","/admin").hasRole("ADMIN")
+                .antMatchers("/api/user/**","/user").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/hot").authenticated()
                 .anyRequest().not().hasRole("USER")
                 .and()
-                .formLogin()
+                .formLogin().loginPage("/login").loginProcessingUrl("/login") // куда передавать пароль и логин
+                .usernameParameter("j_username") // передает логин в секьюрити
+                .passwordParameter("j_password")
                 .successHandler(loginSuccessHandler);
         http.logout()
                 .permitAll()

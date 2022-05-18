@@ -1,55 +1,44 @@
 package com.example.spring.demo.controller;
 
 import com.example.spring.demo.model.User;
-import com.example.spring.demo.service.RoleService;
 import com.example.spring.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
+import java.util.List;
 
-@Controller
-@RequestMapping(value = "/admin")
+@RestController
+@RequestMapping(value = "/api/admin")
 public class AdminController {
     private final UserService userService;
-    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @GetMapping
-    public ModelAndView getAllUsers(ModelAndView modelAndView, @AuthenticationPrincipal User user, Principal principal) {
-        modelAndView.setViewName("index");
-        modelAndView.addObject("user", new User());
-        modelAndView.addObject("listRole", roleService.getListRole());
-        modelAndView.addObject("index", userService.getAllUsers());
-        modelAndView.addObject("currentUser", user);
-        modelAndView.addObject("oneUser", userService.getUserByEmail(principal.getName()));
-        return modelAndView;
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
     @PostMapping(value = "/save")
-    public String saveUser(@ModelAttribute("user") User user, @RequestParam("role") Long[] rolesIds) {
-        userService.saveUser(user, rolesIds);
-        return "redirect:/admin";
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        userService.saveUser(user);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/update")
-    public String update(@ModelAttribute("user") User user, @RequestParam("role") Long[] rolesIds
-    ) {
-        userService.editUser(user, rolesIds);
-        return "redirect:/admin";
+    @PatchMapping(value = "/update/{id}")
+    public ResponseEntity<Object> update(@RequestBody User user, @PathVariable("id") long id) {
+        user.setId(id);
+        userService.editUser(user);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("delete/{id}")
-    public String delete(@PathVariable("id") int id) {
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Object> delete(@PathVariable("id") int id) {
         userService.deleteUser(id);
-        return "redirect:/admin";
+        return ResponseEntity.ok().build();
     }
 }

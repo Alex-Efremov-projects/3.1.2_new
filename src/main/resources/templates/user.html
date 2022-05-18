@@ -8,88 +8,79 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 
     <title>user</title>
+
 </head>
 <body>
-
-
-<nav class="navbar navbar-dark p-0 bg-dark">
-    <form class="form-inline">
-        <div class="container-fluid">
-            <div class="text-white">
-                <strong th:utext="${oneUser.email}"></strong>
-                Разрешен доступ к :
-                <span th:utext="${oneUser.roleSet}"></span>
-            </div>
+<div>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid" id="header">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Выход</a>
+                </li>
+            </ul>
         </div>
-    </form>
-    <div class="text-white">
-        <form class="form-inline" th:action="@{/logout}" method="post">
-            <input class="btn btn-outline-secondary" type="submit" value="Выход">
-        </form>
-    </div>
-</nav>
+    </nav>
+</div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-2">
+        <!-- Левая панель -->
+        <div class="col-2" style="padding-top: 10px">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-User" role="tab"
-                   aria-controls="v-pills-user" aria-selected="true">User</a>
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true">User</a>
             </div>
         </div>
-        <div class="col-10 bg-light">
+        <!-- Правая панель -->
+        <div class="col-10" style="padding-top: 10px; background:#f8f9fa">
             <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-User" role="tabpanel"
-                     aria-labelledby="v-pills-user-tab">
-                    <div class="container-fluid">
-                        <div class="text"><h3>Добро пожаловать , <a th:utext="${oneUser.name}"></a> ! </h3></div>
-                        <br>
-                        <nav class="navbar navbar-expand-lg navbar-light bg-light border">
+                <!-- Правая панель вкладка user -->
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <h1>User information-page</h1>
+                    <div class="border ">
+                        <div class="row" style="margin: 10px; background:#f7f7f7; padding-left: 5px">
 
-                            <a class="navbar-brand"><h5>О пользователе:</h5></a>
-                        </nav>
-                        <div class="bg-white text-bg-dark">
-                            <table class="table table-striped table-hover border">
-                                <form th:action="@{/user/{id} (id=*{id})}" th:object="${oneUser}" method="post">
-                                    <tr align="center">
-                                        <th>Имя</th>
-                                        <th>Фамилия</th>
-                                        <th>Депертамент</th>
-                                        <th>Почта</th>
-                                        <th>Права</th>
-                                    </tr>
-
-                                    <tr align="center">
-                                        <td th:text="${oneUser.name}">name</td>
-                                        <td th:text="${oneUser.lastname}">last_name</td>
-                                        <td th:text="${oneUser.department}">department</td>
-                                        <td th:text="${oneUser.email}">email</td>
-                                        <td>
-                                            <p th:each="userRole: ${oneUser.roleSet}">
-                                                <span th:text="${userRole.getName()}">role</span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </form>
+                            <h5>About user</h5>
+                        </div>
+                    </div>
+                    <div class="border ">
+                        <div class="row" style="background:#ffffff; margin: 0px; padding: 20px;">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Role</th>
+                                </tr>
+                                </thead>
+                                <tbody id="currentUserTable">
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+                <!-- конец Правая панель вкладка user -->
             </div>
         </div>
+        <!-- Конец Правая панель -->
     </div>
 </div>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+<script src="/js/user.js"></script>
 </body>
 </html>
