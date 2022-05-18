@@ -35,11 +35,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUser(long id) {
-        entityManager.createQuery("delete User where id = " + id).executeUpdate();
+        entityManager.remove(getUser(id));
     }
 
     @Override
-    public User showUserByUsername(String email) {
+    public User getUserWithRolesByEmail(String email) {
         return entityManager
                 .createQuery("select u from User u join fetch u.roleSet r where u.email =:email ", User.class)
                 .setParameter("email", email)
