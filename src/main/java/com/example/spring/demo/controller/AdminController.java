@@ -30,7 +30,7 @@ public class AdminController {
         modelAndView.addObject("listRole", roleService.getListRole());
         modelAndView.addObject("index", userService.getAllUsers());
         modelAndView.addObject("currentUser", user);
-        modelAndView.addObject("oneUser", userService.getUserByEmail(principal.getName()));
+        modelAndView.addObject("oneUser", userService.getUserWithRolesByEmail(principal.getName()));
         return modelAndView;
     }
 

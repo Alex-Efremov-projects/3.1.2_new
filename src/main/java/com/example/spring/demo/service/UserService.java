@@ -15,6 +15,6 @@ public interface UserService {
 
     void editUser(User user, Long[] rolesIds);
 
-    User getUserByEmail(String email);
+    User getUserWithRolesByEmail(String email);
 }
 
