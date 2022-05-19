@@ -16,7 +16,7 @@ async function getCurrentUser() {
     let currentUser = {};
 
     try {
-        const response = await fetch("http://localhost:8090/api/user/get");
+        const response = await fetch("http://localhost:8090/api/user");
 
         currentUser = await response.json();
     } catch (error) {
@@ -27,7 +27,7 @@ async function getCurrentUser() {
 }
 
 async function addNewUser(newUser) {
-    const url = 'http://localhost:8090/api/admin/save';
+    const url = 'http://localhost:8090/api/admin/user';
     console.log(newUser);
     try {
         const response = await fetch(url, {
@@ -67,7 +67,6 @@ async function putEditUser(editUser, id) {
 
 async function deleteUserDB(id) {
     const url = 'http://localhost:8090/api/admin/delete/' + id;
-
     try {
         await fetch(url, {
             method: 'DELETE',
@@ -80,7 +79,6 @@ async function deleteUserDB(id) {
         console.error('Ошибка:', error);
     }
     getUsers().then(drawTable);
-
 }
 
 function drawHeader(currentUser) {
@@ -113,7 +111,6 @@ async function getAddUser() {
     const email = document.getElementById('emailAdd').value;
     const password = document.getElementById('passwordAdd').value;
     const roleSet = getRolesJSON(document.getElementById('idRoleAdd'));
-
     try {
         await addNewUser(JSON.stringify({name, lastname, age, email, password, roleSet}, id));
 
@@ -130,7 +127,6 @@ async function getEditUser() {
     const email = document.getElementById('emailEdit').value;
     const password = document.getElementById('passwordEdit').value;
     const roleSet = getRolesJSON(document.getElementById('idRoleEdit'));
-
     try {
         await putEditUser(JSON.stringify({name, lastname, age, email, password, roleSet}), id);
 
@@ -166,7 +162,6 @@ function drawTable(allUsers) {
 
     }
     table.innerHTML = tableContent;
-
 }
 
 function getRoleName(roles) {
@@ -214,8 +209,11 @@ getUsers().then(drawTable);
 getCurrentUser().then(drawHeader);
 
 $('.nav-tabs a[href="#home"]').on('show.bs.tab', () => getUsers().then(drawTable));
+
 $('.nav-tabs a[href="#newUser"]').on('show.bs.tab', () => clearDataNewUser());
+
 $('.nav-pills a[href="#v-pills-profile"]').on('show.bs.tab', () => getCurrentUser().then(drawCurrentUser));
+
 $('#deleteModal').on('show.bs.modal', async function (event) {
     const button = $(event.relatedTarget); // Button that triggered the modal
     const i = button.data('whatever'); // Extract info from data-* attributes

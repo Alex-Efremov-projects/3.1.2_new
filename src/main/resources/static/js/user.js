@@ -1,6 +1,5 @@
 async function getCurrentUser() {
     let currentUser = {};
-
     try {
         const response = await fetch("http://localhost:8090/api/user/get");
 
@@ -8,7 +7,6 @@ async function getCurrentUser() {
     } catch (error) {
         console.error('Ошибка:', error);
     }
-
     return currentUser;
 }
 
