@@ -10,5 +10,5 @@ public interface RoleService {
 
     Set<Role> getSetRoleByIds(Long[] rolesIds);
 
-    List<Role> getListRole();
+    Set<Role> getSetRole();
 }
